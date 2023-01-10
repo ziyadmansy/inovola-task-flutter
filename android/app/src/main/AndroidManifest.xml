@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.inovola_tech_task">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
-        android:label="inovola_tech_task"
+        android:label="Inovola Task"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
