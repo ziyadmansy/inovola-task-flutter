@@ -17,20 +17,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: Constants.appName,
-        home: CourseDetailsScreen(),
-        locale: Locale('ar'),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [
-          Locale('en'),
-          Locale('ar'),
-        ],
+      child: Theme(
+        data: ThemeData(
+          useMaterial3: true,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: 'Cairo',
+        ),
+        child: const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: Constants.appName,
+          home: CourseDetailsScreen(),
+          locale: Locale('ar'),
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('en'),
+            Locale('ar'),
+          ],
+        ),
       ),
     );
   }

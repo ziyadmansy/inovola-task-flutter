@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:inovola_tech_task/modules/courses/presentation_layer/managers/courses_provider.dart';
+import 'package:inovola_tech_task/shared/shared.dart';
 import 'package:inovola_tech_task/shared/stateful_widget_wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,8 @@ class CourseDetailsScreen extends StatefulWidget {
 }
 
 class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
+  final CarouselController _controller = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     final coursesProvider = Provider.of<CoursesProvider>(context);
@@ -74,43 +77,94 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CarouselSlider.builder(
-                                itemCount: coursesProvider
-                                    .courseDetails!.imgsUrl.length,
-                                options: CarouselOptions(
-                                  autoPlay: true,
-                                  enableInfiniteScroll: true,
-                                  pauseAutoPlayOnTouch: true,
-                                  viewportFraction: 1,
-                                ),
-                                itemBuilder: (BuildContext context,
-                                        int itemIndex, int pageViewIndex) =>
-                                    SizedBox(
-                                  width: screenSize.width,
-                                  child: Image.network(
-                                    coursesProvider
-                                        .courseDetails!.imgsUrl[itemIndex],
-                                    fit: BoxFit.cover,
-                                    loadingBuilder: (BuildContext context,
-                                        Widget child,
-                                        ImageChunkEvent? loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return Center(
-                                        child:
-                                            CircularProgressIndicator.adaptive(
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                              : null,
-                                        ),
-                                      );
-                                    },
+                              Stack(
+                                children: [
+                                  CarouselSlider.builder(
+                                    carouselController: _controller,
+                                    itemCount: coursesProvider
+                                        .courseDetails!.imgsUrl.length,
+                                    options: CarouselOptions(
+                                      autoPlay: true,
+                                      enableInfiniteScroll: true,
+                                      pauseAutoPlayOnTouch: true,
+                                      viewportFraction: 1,
+                                      onPageChanged: (index, reason) {
+                                        coursesProvider.changeIndex(index);
+                                      },
+                                    ),
+                                    itemBuilder: (BuildContext context,
+                                            int itemIndex, int pageViewIndex) =>
+                                        SizedBox(
+                                      width: screenSize.width,
+                                      child: Image.network(
+                                        coursesProvider
+                                            .courseDetails!.imgsUrl[itemIndex],
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return Center(
+                                            child: CircularProgressIndicator
+                                                .adaptive(
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Positioned(
+                                    bottom: 8,
+                                    left: 8,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: coursesProvider
+                                          .courseDetails!.imgsUrl
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        return GestureDetector(
+                                          onTap: () => _controller
+                                              .animateToPage(entry.key),
+                                          child: Container(
+                                            width: coursesProvider
+                                                        .currentSliderIndex ==
+                                                    entry.key
+                                                ? 16
+                                                : 12.0,
+                                            height: coursesProvider
+                                                        .currentSliderIndex ==
+                                                    entry.key
+                                                ? 16
+                                                : 12.0,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 4.0),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white.withOpacity(
+                                                coursesProvider
+                                                            .currentSliderIndex ==
+                                                        entry.key
+                                                    ? 0.9
+                                                    : 0.4,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -121,6 +175,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                       '# ${coursesProvider.courseDetails!.interest}',
                                       style: const TextStyle(
                                         color: Colors.grey,
+                                        fontFamily: 'Cairo',
                                       ),
                                     ),
                                     Text(
@@ -129,6 +184,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                         color: Colors.grey,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 24,
+                                        fontFamily: 'Cairo',
                                       ),
                                     ),
                                     const SizedBox(
@@ -137,14 +193,38 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                     Row(
                                       children: [
                                         const Icon(
+                                          Icons.calendar_month_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(
+                                          Shared.getArabicFormattedDate(
+                                              coursesProvider
+                                                  .courseDetails!.date),
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontFamily: 'Cairo',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
                                           Icons.push_pin_outlined,
                                           color: Colors.grey,
+                                        ),
+                                        const SizedBox(
+                                          width: 4,
                                         ),
                                         Text(
                                           coursesProvider
                                               .courseDetails!.address,
                                           style: const TextStyle(
                                             color: Colors.grey,
+                                            fontFamily: 'Cairo',
                                           ),
                                         ),
                                       ],
@@ -166,6 +246,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                               .courseDetails!.trainerName,
                                           style: const TextStyle(
                                             color: Colors.grey,
+                                            fontFamily: 'Cairo',
                                           ),
                                         ),
                                       ],
@@ -175,6 +256,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                           .courseDetails!.trainerInfo,
                                       style: const TextStyle(
                                         color: Colors.grey,
+                                        fontFamily: 'Cairo',
                                       ),
                                     ),
                                     const Divider(),
@@ -183,6 +265,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontWeight: FontWeight.bold,
+                                        fontFamily: 'Cairo',
                                       ),
                                     ),
                                     Text(
@@ -190,6 +273,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                           .courseDetails!.occasionDetail,
                                       style: const TextStyle(
                                         color: Colors.grey,
+                                        fontFamily: 'Cairo',
                                       ),
                                     ),
                                     const Divider(),
@@ -198,6 +282,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        fontFamily: 'Cairo',
                                       ),
                                     ),
                                     ...coursesProvider
@@ -205,9 +291,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                                         .map((res) => ListTile(
                                               contentPadding:
                                                   const EdgeInsets.all(0),
-                                              title: Text(res.name),
+                                              title: Text(
+                                                res.name,
+                                                style: const TextStyle(
+                                                  color: Colors.grey,
+                                                  fontFamily: 'Cairo',
+                                                ),
+                                              ),
                                               trailing: Text(
-                                                  '\$${res.price.toStringAsFixed(2)}'),
+                                                '\$${res.price.toStringAsFixed(2)}',
+                                                style: const TextStyle(
+                                                  color: Colors.grey,
+                                                  fontFamily: 'Cairo',
+                                                ),
+                                              ),
                                             ))
                                         .toList(),
                                   ],
@@ -217,18 +314,34 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      Container(
                         width: screenSize.width,
                         height: 60,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color(0xff703081),
+                              Color(0xff913faa),
+                            ],
+                          ),
+                        ),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.all(0),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(0),
                             ),
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            elevation: 0,
                           ),
                           child: const Text(
                             'قم بالحجز الآن',
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                            ),
                           ),
                           onPressed: () {},
                         ),

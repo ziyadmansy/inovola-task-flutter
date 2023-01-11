@@ -10,7 +10,14 @@ class CoursesProvider extends ChangeNotifier {
   bool isLoading = true;
   bool isLiked = false;
 
+  int currentSliderIndex = 0;
+
   CourseDetailsEntity? courseDetails;
+
+  void changeIndex(int newIndex) {
+    currentSliderIndex = newIndex;
+    notifyListeners();
+  }
 
   void toggleLikeStatus() {
     isLiked = !isLiked;
