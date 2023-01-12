@@ -49,6 +49,29 @@ class CourseDetailsEntity {
     this.isLiked = isLiked;
   }
 
+  factory CourseDetailsEntity.test() {
+    return CourseDetailsEntity(
+      id: 0,
+      title: '',
+      imgsUrl: [],
+      interest: '',
+      price: 0,
+      date: DateTime.now(),
+      address: '',
+      trainerName: '',
+      trainerImg: '',
+      trainerInfo: '',
+      occasionDetail: '',
+      lat: 0.0,
+      lon: 0.0,
+      isLiked: true,
+      isSold: true,
+      isPrivateEvent: true,
+      hiddenCashPayment: true,
+      reserveTypes: [],
+    );
+  }
+
   CourseDetailsEntity copyWith({
     int? id,
     String? title,

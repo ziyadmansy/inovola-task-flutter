@@ -8,7 +8,7 @@ class CoursesServiceImpl implements CourseService {
   // Overriden service method that gets course details
   // from test remote API
   @override
-  Future<CourseDetailsEntity> getCourseDetails() async {
+  Future<CourseDetailsEntity?> getCourseDetails() async {
     final url = Uri.parse(ApiRoutes.courseDetails);
     final response = await get(
       url,
