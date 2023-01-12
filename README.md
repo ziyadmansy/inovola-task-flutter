@@ -1,5 +1,5 @@
 
-# Made by love to my lovely [Inovola]  without Hesitation.
+# Made by love to [Inovola].
 
 <p>A technical task project for [Inovola].</p>
 
