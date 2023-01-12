@@ -20,3 +20,7 @@ To access the APK file and the app flow video, kindly [Click here](https://drive
 | Tests Snippets | ![Tests](https://github.com/ziyadmansy/inovola-task-flutter/blob/master/test_1.png?raw=true) | 
 |--|--|
 | ![Tests](https://github.com/ziyadmansy/inovola-task-flutter/blob/master/test_2.png?raw=true) | ![Tests](https://github.com/ziyadmansy/inovola-task-flutter/blob/master/test_3.png?raw=true) |
+
+
+
+
