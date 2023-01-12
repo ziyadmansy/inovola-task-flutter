@@ -93,7 +93,7 @@ void main() {
       );
 
       test(
-        'Checking internet requesting failed',
+        'Checking http requesting failed',
         () async {
           // arrange
           when(mockCourseService.getCourseDetails()).thenThrow(Exception());
