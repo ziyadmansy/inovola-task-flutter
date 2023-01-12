@@ -1,16 +1,17 @@
-# inovola_tech_task
 
-A new Flutter project.
+# Made by love to my lovely [Inovola]  without Hesitation.
 
-## Getting Started
+<p>A technical task project for [Inovola].</p>
 
-This project was made by love to my lovely [Inovola] Company without Hesitation.
+## Core structure features
 
-A few resources to get you started if this is your first Flutter project:
+ - Clean, scalable and maintainable architecture
+ - Domain Driven Design (DDD) approach
+ - Test Driven Development (TDD)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
+| ![Screenshot 1](https://github.com/ziyadmansy/inovola-task-flutter/blob/master/screenshot_2.jpeg?raw=true) | ![Screenshot 2](https://github.com/ziyadmansy/inovola-task-flutter/blob/master/screenshot_1.jpeg?raw=true) |
+|--|--|
+## App Data
+To access the APK file and the app flow video, kindly [Click here](https://drive.google.com/drive/folders/1m-LkBzpNly2ERJ5J4QJ_zms1-zMyi1KS?usp=share_link)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
